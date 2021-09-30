@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.7.0" group="fields" method="upgrade">
+    <name>plg_fields_articleselect</name>
+    <author>R2H Marketing &amp; Internet Solutions</author>
+    <creationDate>Sept 2021</creationDate>
+    <copyright>Copyright (C) 2010 - 2021 r2h.nl. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>post@r2h.nl</authorEmail>
+    <authorUrl>www.r2h.nl</authorUrl>
+    <version>1.0</version>
+    <description>PLG_FIELDS_ARTICLESELECT_XML_DESCRIPTION</description>
+
+    <files>
+        <filename plugin="articleselect">articleselect.php</filename>
+        <folder>params</folder>
+        <folder>tmpl</folder>
+    </files>
+
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_fields_articleselect.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_fields_articleselect.sys.ini</language>
+    </languages>
+    	<config>
+		<fields name="params">
+			<fieldset name="basic">
+			<field
+				name="categories"
+				type="category"
+				label="PLG_FIELDS_ARTICLESELECT_PARAMS_CATEGORIES_LABEL"
+                layout="joomla.form.field.list-fancy-select"
+				filter="integer"
+				validate="options"
+                extension="com_content"
+                multiple="true" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

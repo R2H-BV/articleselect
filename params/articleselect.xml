@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+			<field
+				name="categories"
+				type="category"
+				label="PLG_FIELDS_ARTICLESELECT_PARAMS_CATEGORIES_LABEL"
+                layout="joomla.form.field.list-fancy-select"
+				filter="integer"
+				validate="options"
+                extension="com_content"
+                multiple="true" />
+		</fieldset>
+	</fields>
+</form>

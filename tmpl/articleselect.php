@@ -1,5 +1,6 @@
 <?php // phpcs:ignore
 declare(strict_types = 1);
+opcache_invalidate(__FILE__, true);
 
 defined('_JEXEC') or die;
 
@@ -13,9 +14,12 @@ if ($value == '')
 	return;
 }
 
+$outputFormat = $this->params->get('outputFormat', 'links');
+
 if (!function_exists('getUrl')) {
-	function getUrl ($title) {
-		$db = Factory::getDbo();
+	function getUrl ($title, $format) {
+
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$articleId = '';
 		// Create a new query object.
@@ -30,22 +34,51 @@ if (!function_exists('getUrl')) {
 		$articleId = $db->loadResult();
 
 		if (empty($articleId)) {
-			return 'We could not find the article id!!';
+			return 'Article ID not found!';
 		}
 
-		$url = Route::_('index.php?option=com_content&view=article&id='.$articleId);
+		$rawurl = 'index.php?option=com_content&view=article&id='.$articleId;
+		$url = Route::_($rawurl);
 
-		return '<a class="cf-article-link" href="'.$url.'" alt="'.$title.'">'.$title.'</a>';
+		if ($format == 'links') {
+			return '<a class="cf-article-link" href="'.$url.'" alt="'.$title.'">'.$title.'</a>';
+		}
+
+		if ($format == 'array') {
+			return ['articleid' => $articleId, 'title' => $title, 'raw_url' => $rawurl, 'url' => $url];
+		}
+
 	}
 }
 
-echo '<div class="cf-article-link-list">';
-if (is_array($value))
-{
-	foreach ($value as $articleTitle) {
-		echo getUrl($articleTitle) . '<br>';
+if ($outputFormat == 'links') {
+	echo '<div class="cf-article-link-list">';
+	if (is_array($value))
+	{
+		foreach ($value as $articleTitle) {
+			echo getUrl($articleTitle, $outputFormat) . '<br>';
+		}
+	} else {
+		echo getUrl($value, $outputFormat) . '<br>';
 	}
-} else {
-	echo getUrl($value) . '<br>';
+	echo '</div>';
 }
-echo '</div>';
+
+if ($outputFormat == 'array') {
+
+	$articleArray = [];
+
+	if (is_array($value))
+	{
+		foreach ($value as $articleInfo) {
+			array_push($articleArray, getUrl($articleInfo, $outputFormat));
+		}
+	} else {
+
+		array_push($articleArray, getUrl($value, $outputFormat));
+	}
+
+	echo '<pre>';
+	print_r($articleArray);
+	echo '</pre>';
+}

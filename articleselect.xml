@@ -17,12 +17,22 @@
     </files>
 
     <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_fields_articleselect.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_fields_articleselect.sys.ini</language>
+        <language tag="en-GB">language/en-GB/plg_fields_articleselect.ini</language>
+        <language tag="en-GB">language/en-GB/plg_fields_articleselect.sys.ini</language>
     </languages>
     	<config>
 		<fields name="params">
 			<fieldset name="basic">
+            <field
+                name="outputFormat"
+                type="list"
+                label="PLG_FIELDS_ARTICLESELECT_PARAMS_OUTPUTFORMAT"
+                description="PLG_FIELDS_ARTICLESELECT_PARAMS_OUTPUTFORMAT_DESC"
+                filter="string"
+                default="links">
+                <option value="links">links</option>
+                <option value="array">array</option>
+            </field>
 			<field
 				name="categories"
 				type="category"

@@ -1,6 +1,5 @@
 <?php // phpcs:ignore
 declare(strict_types = 1);
-opcache_invalidate(__FILE__, true);
 
 defined('_JEXEC') or die;
 

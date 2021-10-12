@@ -23,16 +23,6 @@
     	<config>
 		<fields name="params">
 			<fieldset name="basic">
-            <field
-                name="outputFormat"
-                type="list"
-                label="PLG_FIELDS_ARTICLESELECT_PARAMS_OUTPUTFORMAT"
-                description="PLG_FIELDS_ARTICLESELECT_PARAMS_OUTPUTFORMAT_DESC"
-                filter="string"
-                default="links">
-                <option value="links">links</option>
-                <option value="array">array</option>
-            </field>
 			<field
 				name="categories"
 				type="category"

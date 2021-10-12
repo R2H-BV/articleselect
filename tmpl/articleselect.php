@@ -1,5 +1,6 @@
 <?php // phpcs:ignore
 declare(strict_types = 1);
+opcache_invalidate(__FILE__, true);
 
 defined('_JEXEC') or die;
 
@@ -13,7 +14,7 @@ if ($value == '')
 	return;
 }
 
-$outputFormat = $this->params->get('outputFormat', 'links');
+$outputFormat = $field->fieldparams->get('outputFormat', 'links');
 
 if (!function_exists('getUrl')) {
 	function getUrl ($title, $format) {

@@ -25,7 +25,6 @@ if (!function_exists('getUrl')) {
 
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
-		$articleId = '';
 		// Create a new query object.
 		$query = $db->getQuery(true);
 

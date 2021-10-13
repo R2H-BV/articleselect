@@ -52,13 +52,6 @@ if (!function_exists('getUrl')) {
 			// get custom fields values
 			$object = ['id' => $id, 'title' => $title, 'raw_url' => $rawurl, 'url' => $url, 'images' => json_decode($row[1])];
 
-			// Get the custom fields from the item = article object
-			$jcfields = FieldsHelper::getFields('com_content.article', $object, true); //($item is the full object, not the ID)
-			// Populate the Custom Fields array to get data
-			$fieldsByName = \Joomla\Utilities\ArrayHelper::pivot($jcfields, 'name');
-
-			$object['fields'] = $fieldsByName;
-
 			return $object;
 		}
 

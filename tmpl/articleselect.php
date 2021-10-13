@@ -101,7 +101,6 @@ if ($outputFormat == 'array') {
 		array_push($articleArray, getUrl($value, $outputFormat));
 	}
 
-	echo '<pre>';
-	print_r($articleArray);
-	echo '</pre>';
+	echo json_encode($articleArray);
+
 }

@@ -10,12 +10,15 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 $value = $field->value;
 
+
+
 if ($value == '')
 {
 	return;
 }
 
 $outputFormat = $field->fieldparams->get('outputFormat', 'links');
+$categories = $field->fieldparams->get('categories', '');
 
 if (!function_exists('getUrl')) {
 	function getUrl ($id, $format) {
@@ -26,7 +29,7 @@ if (!function_exists('getUrl')) {
 		// Create a new query object.
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName(array('title', 'images')));
+		$query->select($db->quoteName(array('title', 'catid', 'images')));
 		$query->from($db->quoteName('#__content'));
 		$query->where($db->quotename('id') . ' = ' . $db->quote($id));
 
@@ -41,7 +44,7 @@ if (!function_exists('getUrl')) {
 
 		$title = $row[0];
 
-		$rawurl = 'index.php?option=com_content&view=article&id='.$id;
+		$rawurl = 'index.php?option=com_content&view=article&id='. $id.'&catid=' . $row[1];
 		$url = Route::_($rawurl);
 
 		if ($format == 'links') {
@@ -50,7 +53,7 @@ if (!function_exists('getUrl')) {
 
 		if ($format == 'array') {
 			// get custom fields values
-			$object = ['id' => $id, 'title' => $title, 'raw_url' => $rawurl, 'url' => $url, 'images' => json_decode($row[1])];
+			$object = ['id' => $id, 'title' => $title, 'raw_url' => $rawurl, 'url' => $url, 'images' => json_decode($row[2])];
 
 			return $object;
 		}

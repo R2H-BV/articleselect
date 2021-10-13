@@ -102,7 +102,5 @@ if ($outputFormat == 'array') {
 
 		array_push($articleArray, getUrl($value, $outputFormat));
 	}
-
 	echo json_encode($articleArray);
-
 }

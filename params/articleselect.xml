@@ -11,6 +11,7 @@
                 default="links">
                 <option value="links">links</option>
                 <option value="array">array</option>
+                <option value="buttons">buttons</option>
             </field>
 			<field
 				name="categories"

@@ -47,7 +47,7 @@ class PlgFieldsArticleSelect extends FieldsListPlugin
 
         $fieldNode->setAttribute(
             'query',
-            'select title as value, CONCAT(title, " [", id, "]") as text from #__content' .
+            'select id as value, CONCAT(title, " [", id, "]") as text from #__content' .
             (count($categories) ? ' where catid in (' . implode(',', $categories) . ')' : '')
         );
 

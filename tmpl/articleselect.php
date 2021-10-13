@@ -1,11 +1,12 @@
 <?php // phpcs:ignore
 declare(strict_types = 1);
-opcache_invalidate(__FILE__, true);
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 $value = $field->value;
 
@@ -17,7 +18,7 @@ if ($value == '')
 $outputFormat = $field->fieldparams->get('outputFormat', 'links');
 
 if (!function_exists('getUrl')) {
-	function getUrl ($title, $format) {
+	function getUrl ($id, $format) {
 
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
@@ -25,19 +26,22 @@ if (!function_exists('getUrl')) {
 		// Create a new query object.
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName(array('id')));
+		$query->select($db->quoteName(array('title', 'images')));
 		$query->from($db->quoteName('#__content'));
-		$query->where($db->quotename('title') . ' LIKE ' . $db->quote($title));
+		$query->where($db->quotename('id') . ' = ' . $db->quote($id));
 
 		// Reset the query using our newly populated query object.
 		$db->setQuery($query);
-		$articleId = $db->loadResult();
 
-		if (empty($articleId)) {
+		$row = $db->loadRow();
+
+		if (empty($row)) {
 			return 'Article ID not found!';
 		}
 
-		$rawurl = 'index.php?option=com_content&view=article&id='.$articleId;
+		$title = $row[0];
+
+		$rawurl = 'index.php?option=com_content&view=article&id='.$id;
 		$url = Route::_($rawurl);
 
 		if ($format == 'links') {
@@ -45,9 +49,22 @@ if (!function_exists('getUrl')) {
 		}
 
 		if ($format == 'array') {
-			return ['articleid' => $articleId, 'title' => $title, 'raw_url' => $rawurl, 'url' => $url];
+			// get custom fields values
+			$object = ['id' => $id, 'title' => $title, 'raw_url' => $rawurl, 'url' => $url, 'images' => json_decode($row[1])];
+
+			// Get the custom fields from the item = article object
+			$jcfields = FieldsHelper::getFields('com_content.article', $object, true); //($item is the full object, not the ID)
+			// Populate the Custom Fields array to get data
+			$fieldsByName = \Joomla\Utilities\ArrayHelper::pivot($jcfields, 'name');
+
+			$object['fields'] = $fieldsByName;
+
+			return $object;
 		}
 
+		if ($format == 'buttons') {
+			return '<a class="btn btn-success me-2 rounded-pill cf-article-btn-link" href="'.$url.'" alt="'.$title.'">'.$title.'</a>';
+		}
 	}
 }
 
@@ -60,6 +77,19 @@ if ($outputFormat == 'links') {
 		}
 	} else {
 		echo getUrl($value, $outputFormat) . '<br>';
+	}
+	echo '</div>';
+}
+
+if ($outputFormat == 'buttons') {
+	echo '<div class="cf-article-button-list">';
+	if (is_array($value))
+	{
+		foreach ($value as $articleTitle) {
+			echo getUrl($articleTitle, $outputFormat);
+		}
+	} else {
+		echo getUrl($value, $outputFormat);
 	}
 	echo '</div>';
 }

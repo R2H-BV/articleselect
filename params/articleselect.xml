@@ -11,7 +11,6 @@
                 default="links">
                 <option value="links">links</option>
                 <option value="array">array</option>
-                <option value="buttons">buttons</option>
             </field>
 			<field
 				name="categories"
@@ -22,6 +21,21 @@
 				validate="options"
                 extension="com_content"
                 multiple="true" />
+            <field
+                name="linkswrapperclass"
+                type="text"
+                label="PLG_FIELDS_ARTICLESELECT_PARAMS_LINKSWRAPPERCLASS"
+                description="PLG_FIELDS_ARTICLESELECT_PARAMS_LINKSWRAPPERCLASS_DESC" />
+            <field
+                name="linkwrapperclass"
+                type="text"
+                label="PLG_FIELDS_ARTICLESELECT_PARAMS_LINKWRAPPERCLASS"
+                description="PLG_FIELDS_ARTICLESELECT_PARAMS_LINKWRAPPERCLASS_DESC" />
+            <field
+                name="linkclass"
+                type="text"
+                label="PLG_FIELDS_ARTICLESELECT_PARAMS_LINKCLASS"
+                description="PLG_FIELDS_ARTICLESELECT_PARAMS_LINKCLASS_DESC" />
 		</fieldset>
 	</fields>
 </form>
